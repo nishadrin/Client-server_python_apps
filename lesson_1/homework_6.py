@@ -18,4 +18,4 @@ print('Стандартная кодировка: ', locale.getpreferredencoding
 
 print('Данные из файла:')
 with open(test_file_path, 'r', encoding='utf-8') as file:
-    [print(line) for line in file.readlines()]
+    [print(line.strip()) for line in file.readlines()]
