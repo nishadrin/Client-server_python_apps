@@ -6,14 +6,12 @@ import subprocess
 def ping_coding_UTF8(addr, requests):
     args = ['ping', addr, '-c', str(requests)]
     subproc_ping = subprocess.Popen(args, stdout=subprocess.PIPE)
-    [print(line.decode('utf-8')) for line in subproc_ping.stdout]
+    for line in subproc_ping.stdout:
+        print(line.decode('utf-8'))
 
 def main():
     request_counts = 4
-    dest_addrs = [
-        'yandex.ru',
-        'youtube.com',
-        ]
+    dest_addrs = ['yandex.ru', 'youtube.com',]
     for addr in dest_addrs:
         print('*' * 50, f'Пинг до {addr}', sep='\n')
         ping_coding_UTF8(addr, requests=request_counts)

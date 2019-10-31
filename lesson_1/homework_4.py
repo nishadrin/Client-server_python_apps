@@ -8,7 +8,9 @@ words = [
     'standard',
     ]
 words_encode = [word.encode('utf-8', errors='replace') for word in words]
-[print(word, f'{type(word)}\n', sep='\n') for word in words_encode]
+for word in words_encode:
+    print(word, f'{type(word)}\n', sep='\n')
 
 words_decode = [word.decode('utf-8', errors='replace') for word in words_encode]
-[print(word, f'{type(word)}\n', sep='\n') for word in words_decode]
+for word in words_decode:
+    print(word, f'{type(word)}\n', sep='\n')

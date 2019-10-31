@@ -6,7 +6,9 @@ words = [
     b'функция',
     b'type',
     ]
-[print(word, type(word), sep='\n') for word in words]
+
+for word in words:
+    print(word, type(word), sep='\n')
 
 # Невозможно записать в байтовом типе: b'класс', b'функция' -
 # русские символы

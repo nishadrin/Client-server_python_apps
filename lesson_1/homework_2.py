@@ -11,5 +11,7 @@ words_bytes = [
     b'function',
     b'method',
     ]
-[print(word, type(word), sep='\n') for word in words]
-[print(word, type(word), sep='\n') for word in words_bytes]
+for word in words:
+    print(word, type(word), sep='\n')
+for word in words_bytes:
+    print(word, type(word), sep='\n')
