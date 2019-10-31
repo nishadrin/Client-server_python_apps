@@ -1,11 +1,6 @@
 # 3. Определить, какие из слов «attribute», «класс», «функция», «type»
 # невозможно записать в байтовом типе.
-words = [
-    b'attribute',
-    b'класс',
-    b'функция',
-    b'type',
-    ]
+words = [b'attribute', b'класс', b'функция', b'type',]
 
 for word in words:
     print(word, type(word), sep='\n')

@@ -6,11 +6,7 @@ import locale
 # о умолчанию. Принудительно открыть файл в формате Unicode и вывести его
 # содержимое.
 test_file_path = os.path.abspath('test_file.txt')
-words = [
-    'сетевое программирование\n',
-    'сокет\n',
-    'декоратор\n',
-    ]
+words = ['сетевое программирование\n', 'сокет\n', 'декоратор\n',]
 with open(test_file_path, 'w') as file:
     file.writelines(words)
 
