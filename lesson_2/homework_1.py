@@ -5,6 +5,8 @@
 
 # PS: Добавил немного "отсебятины", мне кажется, так универсальнее +
 # читабельнее, isn't it?
+
+# альтернативная версия https://gist.github.com/nishadrin/7121d7a7d3cb74ef208453a7417bf0e9
 import re
 import os
 import csv
