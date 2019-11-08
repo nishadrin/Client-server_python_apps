@@ -23,14 +23,14 @@ def make_msg_from_server(data):
 
 
 @click.command()
-@click.option('--port', default=7777, help='port number')
+@click.option('--port', type=int, help='port number')
 @click.argument('addr')
 def command_line(addr, port):
     sock = socket(AF_INET, SOCK_STREAM)
     sock.connect((addr, port))
 
     send_msg_to_server(sock, presence_msg())
-    
+
     print('Сообщение с сервера:', receive_msg_from_server(sock))
 
     sock.close
