@@ -17,7 +17,7 @@ def send_msg_to_client(client, data):
 
 @click.command()
 @click.option('--port', default=7777, help='port number')
-@click.argument('addr')
+@click.option('--addr', default='0.0.0.0', help='ip address')
 def command_line(addr, port):
     sock = socket(AF_INET, SOCK_STREAM)
     sock.bind((addr, port))

@@ -8,7 +8,7 @@ import click
 def presence_msg():
     return json.dumps({
         "action": "presence",
-        "time": int((datetime.now() - datetime(1970, 1, 1)).total_seconds()),
+        "time": int(datetime.now().timestamp()),
         "type": "status"
         }).encode('ascii')
 
@@ -33,7 +33,7 @@ def command_line(addr, port):
 
     print('Сообщение с сервера:', receive_msg_from_server(sock))
 
-    sock.close
+    sock.close()
 
 if __name__ == '__main__':
     command_line()
