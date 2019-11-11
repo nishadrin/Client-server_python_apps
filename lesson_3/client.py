@@ -76,7 +76,7 @@ def get_data_from_server(connect:socket, encoding:str='ascii') -> dict:
     recieve_bytes = connect.recv(JIM_MAX_BYTES)
     if len(recieve_bytes) == 0:
         return None
-    return unpack_data(connect.recv(JIM_MAX_BYTES), encoding)
+    return unpack_data(recieve_bytes, encoding)
 
 def pack_data(data:dict, encoding:str='ascii') -> bytes:
     return json.dumps(data).encode(encoding)

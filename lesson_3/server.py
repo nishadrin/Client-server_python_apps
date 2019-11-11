@@ -41,7 +41,10 @@ def pack_data(data:dict, encoding:str) -> bytes:
     return json.dumps(data).encode(encoding)
 
 def get_data_from_client(client:socket, encoding:str='ascii'):
-    return unpack_data(client.recv(JIM_MAX_BYTES), encoding)
+    recieve_bytes = connect.recv(JIM_MAX_BYTES)
+    if len(recieve_bytes) == 0:
+        return None
+    return unpack_data(recieve_bytes, encoding)
 
 def send_data_to_client(client:socket, data:dict, encoding:str='ascii'):
     client.send(pack_data(data, encoding))
@@ -49,7 +52,7 @@ def send_data_to_client(client:socket, data:dict, encoding:str='ascii'):
 
 def read_msg_from_client(client):
     client_request = get_data_from_client(client)
-    if client_request.get('action') not in ACTIONS_TUPLE:
+    if data is None or client_request.get('action') not in ACTIONS_TUPLE:
         return send_data_to_client(client, form_alert(400))
     if client_request.get('action') == 'presence':
         return send_data_to_client(client, form_alert(200))
