@@ -7,14 +7,14 @@ import click
 from client_common.settings import *
 
 
-def alerts_msg_text_from_code(response_code:int) -> str:
+def alerts_msg_text_from_code(response_code: int) -> str:
     for code, msg in ALERTS_MSGS.items():
         if int(code) == response_code:
             return msg
     return None
 
 
-def form_alert(response_code:int, msg_code:str=None) -> dict:
+def form_alert(response_code: int, msg_code: str=None) -> dict:
     alert = 'alert'
     if response_code > 299:
         alert = 'error'
@@ -26,7 +26,7 @@ def form_alert(response_code:int, msg_code:str=None) -> dict:
         'alert': msg_code
         }
 
-def form_data_msg(msg_to:str, msg_from:str, msg:str, encoding="ascii") -> dict:
+def form_data_msg(msg_to: str, msg_from: str, msg: str, encoding="ascii") -> dict:
     return {
         "action": "msg",
         "time": int(datetime.now().timestamp()),
@@ -36,7 +36,7 @@ def form_data_msg(msg_to:str, msg_from:str, msg:str, encoding="ascii") -> dict:
         "message": msg
         }
 
-def form_data_presence_msg(user_name:str, type:str='status') -> dict:
+def form_data_presence_msg(user_name: str, type: str='status') -> dict:
     return {
         "action": "presence",
         "time": int(datetime.now().timestamp()),
@@ -47,7 +47,7 @@ def form_data_presence_msg(user_name:str, type:str='status') -> dict:
             }
         }
 
-def form_data_auth(user_name:str, password:str, type:str='Status') -> dict:
+def form_data_auth(user_name: str, password: str, type: str='Status') -> dict:
     return {
         "action": "authenticate",
         "time": int(datetime.now().timestamp()),
@@ -58,7 +58,7 @@ def form_data_auth(user_name:str, password:str, type:str='Status') -> dict:
             }
         }
 
-def form_data_join_or_leave_chat(room_name, leave:bool=False) -> dict:
+def form_data_join_or_leave_chat(room_name, leave: bool=False) -> dict:
     action = 'join'
     if leave:
         action = 'leave'
@@ -69,25 +69,26 @@ def form_data_join_or_leave_chat(room_name, leave:bool=False) -> dict:
         }
 
 
-def send_data_to_server(connect:socket, data:dict, encoding:str='ascii'):
+def send_data_to_server(connect: socket, data: dict, encoding: str='ascii'):
     connect.send(pack_data(data, encoding))
 
-def get_data_from_server(connect:socket, encoding:str='ascii') -> dict:
+def get_data_from_server(connect: socket, encoding: str='ascii') -> dict:
     recieve_bytes = connect.recv(JIM_MAX_BYTES)
-    if len(recieve_bytes) == 0:
+    if not recieve_bytes:
         return None
     return unpack_data(recieve_bytes, encoding)
 
-def pack_data(data:dict, encoding:str='ascii') -> bytes:
+def pack_data(data: dict, encoding: str='ascii') -> bytes:
     return json.dumps(data).encode(encoding)
 
-def unpack_data(data:dict, encoding:str) -> dict:
+def unpack_data(data: dict, encoding: str) -> dict:
     return json.loads(data.decode(encoding))
 
 
-def read_msg_from_server(connect:socket, data:dict) -> dict:
+def read_msg_from_server(connect: socket, data: dict) -> dict:
     if data is None or client_request.get('action') not in ACTIONS_TUPLE:
-        return send_data_to_server(connect, form_alert(400))
+        send_data_to_server(connect, form_alert(400))
+        return None
     if data.get('action') == 'probe':
         send_data_to_server(connect, form_data_presence_msg('Nick'))
         return None
@@ -97,7 +98,7 @@ def read_msg_from_server(connect:socket, data:dict) -> dict:
 @click.command()
 @click.option('--port', type=int, help='port number')
 @click.argument('addr')
-def command_line(addr:str, port:int):
+def command_line(addr: str, port: int):
     sock = socket(AF_INET, SOCK_STREAM)
     sock.connect((addr, port))
 
