@@ -3,8 +3,28 @@ from datetime import datetime
 import json
 
 import click
+
 from client_common.settings import *
 
+
+def alerts_msg_text_from_code(response_code:int) -> str:
+    for code, msg in ALERTS_MSGS.items():
+        if int(code) == response_code:
+            return msg
+    return None
+
+
+def form_alert(response_code:int, msg_code:str=None) -> dict:
+    alert = 'alert'
+    if response_code > 299:
+        alert = 'error'
+    if msg_code is None:
+        msg_code = alerts_msg_text_from_code(response_code)
+    return {
+        "response": response_code,
+        "time": int(datetime.now().timestamp()),
+        'alert': msg_code
+        }
 
 def form_data_msg(msg_to:str, msg_from:str, msg:str, encoding="ascii") -> dict:
     return {
@@ -16,7 +36,7 @@ def form_data_msg(msg_to:str, msg_from:str, msg:str, encoding="ascii") -> dict:
         "message": msg
         }
 
-def form_data_presence_msg(user_name:str, type:str='Status') -> dict:
+def form_data_presence_msg(user_name:str, type:str='status') -> dict:
     return {
         "action": "presence",
         "time": int(datetime.now().timestamp()),
@@ -53,6 +73,9 @@ def send_data_to_server(connect:socket, data:dict, encoding:str='ascii'):
     connect.send(pack_data(data, encoding))
 
 def get_data_from_server(connect:socket, encoding:str='ascii') -> dict:
+    recieve_bytes = connect.recv(JIM_MAX_BYTES)
+    if len(recieve_bytes) == 0:
+        return None
     return unpack_data(connect.recv(JIM_MAX_BYTES), encoding)
 
 def pack_data(data:dict, encoding:str='ascii') -> bytes:
@@ -63,6 +86,8 @@ def unpack_data(data:dict, encoding:str) -> dict:
 
 
 def read_msg_from_server(connect:socket, data:dict) -> dict:
+    if data is None:
+        return send_data_to_server(connect, form_alert(400))
     if data.get('action') == 'probe':
         send_data_to_server(connect, form_data_presence_msg('Nick'))
         return None
