@@ -1,6 +1,7 @@
 from socket import socket, AF_INET, SOCK_STREAM
 import time
 import json
+from datetime import datetime
 
 import click
 
@@ -37,6 +38,7 @@ def unpack_data(data:dict, encoding:str) -> dict:
     return json.loads(data.decode(encoding))
 
 def pack_data(data:dict, encoding:str) -> bytes:
+    print(data)
     return json.dumps(data).encode(encoding)
 
 def get_data_from_client(client:socket, encoding:str='ascii'):
@@ -49,7 +51,10 @@ def send_data_to_client(client:socket, data:dict, encoding:str='ascii'):
 def read_msg_from_client(client):
     client_request = get_data_from_client(client)
     if client_request.get('action') not in ACTIONS_TUPLE:
-        return form_alert(400)
+        return send_data_to_client(client, form_alert(400))
+    if client_request.get('action') == 'presence':
+        return send_data_to_client(client, form_alert(200))
+    return client_request
 
     # send_data_to_client(client, form_is_online_request())
 
@@ -71,7 +76,7 @@ def command_line(addr:str, port:int):
             print('Порт свободен, можно пользоваться.')
             raise
 
-        read_msg_from_client(client)
+        print(read_msg_from_client(client))
 
         client.close()
 

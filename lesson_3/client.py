@@ -53,14 +53,18 @@ def send_data_to_server(connect:socket, data:dict, encoding:str='ascii'):
     connect.send(pack_data(data, encoding))
 
 def get_data_from_server(connect:socket, encoding:str='ascii') -> dict:
-    print(connect.recv(JIM_MAX_BYTES).decode(encoding)) # b''
+    # print(connect.recv(JIM_MAX_BYTES).decode(encoding)) # b''
     return unpack_data(connect.recv(JIM_MAX_BYTES), encoding)
 
 def pack_data(data:dict, encoding:str='ascii') -> bytes:
+    # print(data)
     return json.dumps(data).encode(encoding)
 
 def unpack_data(data:dict, encoding:str) -> dict:
-    return json.loads(data.decode(encoding))
+    # print(data)
+    lst = json.loads(data.decode(encoding))
+    # print(lst)
+    return lst
 
 
 def read_msg_from_server(connect:socket, data:dict) -> dict:
@@ -77,8 +81,8 @@ def command_line(addr:str, port:int):
     sock = socket(AF_INET, SOCK_STREAM)
     sock.connect((addr, port))
 
-    send_data_to_server(sock, form_data_presence_msg('Nick'))
-
+    a = send_data_to_server(sock, form_data_presence_msg('Nick'))
+    print(a)
     msg_from_server = read_msg_from_server(sock, get_data_from_server(sock))
 
     if msg_from_server is not None:
