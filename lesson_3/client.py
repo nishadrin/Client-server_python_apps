@@ -86,7 +86,7 @@ def unpack_data(data:dict, encoding:str) -> dict:
 
 
 def read_msg_from_server(connect:socket, data:dict) -> dict:
-    if data is None:
+    if data is None or client_request.get('action') not in ACTIONS_TUPLE:
         return send_data_to_server(connect, form_alert(400))
     if data.get('action') == 'probe':
         send_data_to_server(connect, form_data_presence_msg('Nick'))
