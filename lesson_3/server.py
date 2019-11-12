@@ -8,14 +8,14 @@ import click
 from server_common.settings import *
 
 
-def alerts_msg_text_from_code(response_code:int) -> str:
+def alerts_msg_text_from_code(response_code: int) -> str:
     for code, msg in ALERTS_MSGS.items():
         if int(code) == response_code:
             return msg
     return None
 
 
-def form_alert(response_code:int, msg_code:str=None) -> dict:
+def form_alert(response_code: int, msg_code: str=None) -> dict:
     alert = 'alert'
     if response_code > 299:
         alert = 'error'
@@ -27,42 +27,44 @@ def form_alert(response_code:int, msg_code:str=None) -> dict:
         'alert': msg_code
         }
 
-def form_is_online_request() -> dict:
+def form_is_online() -> dict:
     return {
         "action": "probe",
         "time": int(datetime.now().timestamp()),
         }
 
 
-def unpack_data(data:dict, encoding:str) -> dict:
+def unpack_data(data: dict, encoding: str) -> dict:
     return json.loads(data.decode(encoding))
 
-def pack_data(data:dict, encoding:str) -> bytes:
-    print(data)
+def pack_data(data: dict, encoding: str) -> bytes:
     return json.dumps(data).encode(encoding)
 
-def get_data_from_client(client:socket, encoding:str='ascii'):
-    return unpack_data(client.recv(JIM_MAX_BYTES), encoding)
+def get_data_from_client(client: socket, encoding: str='ascii') -> dict:
+    recieve_bytes = client.recv(JIM_MAX_BYTES)
+    if not recieve_bytes:
+        return None
+    return unpack_data(recieve_bytes, encoding)
 
-def send_data_to_client(client:socket, data:dict, encoding:str='ascii'):
+def send_data_to_client(client: socket, data: dict, encoding: str='ascii'):
     client.send(pack_data(data, encoding))
 
 
-def read_msg_from_client(client):
+def read_msg_from_client(client: socket, data: dict):
     client_request = get_data_from_client(client)
-    if client_request.get('action') not in ACTIONS_TUPLE:
-        return send_data_to_client(client, form_alert(400))
+    if data is None or client_request.get('action') not in ACTIONS_TUPLE:
+        send_data_to_client(client, form_alert(400))
+        return None
     if client_request.get('action') == 'presence':
-        return send_data_to_client(client, form_alert(200))
+        send_data_to_client(client, form_alert(200))
+        return None
     return client_request
-
-    # send_data_to_client(client, form_is_online_request())
 
 
 @click.command()
 @click.option('--port', default=DEFAULT_SERVER_PORT, help='port number')
 @click.option('--addr', default=DEFAULT_SERVER_IP_ADDRESS, help='ip address')
-def command_line(addr:str, port:int):
+def command_line(addr: str, port: int):
     sock = socket(AF_INET, SOCK_STREAM)
     sock.bind((addr, port))
     sock.listen(SOCKET_LISTENING)
@@ -76,7 +78,7 @@ def command_line(addr:str, port:int):
             print('Порт свободен, можно пользоваться.')
             raise
 
-        print(read_msg_from_client(client))
+        read_msg_from_client(client, get_data_from_client(sock))
 
         client.close()
 
