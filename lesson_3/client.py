@@ -26,6 +26,7 @@ def form_alert(response_code: int, msg_code: str=None) -> dict:
         'alert': msg_code
         }
 
+
 def form_data_msg(msg_to: str, msg_from: str, msg: str, encoding="ascii") -> dict:
     return {
         "action": "msg",
@@ -58,6 +59,7 @@ def form_data_auth(user_name: str, password: str, type: str='Status') -> dict:
             }
         }
 
+
 def form_data_join_or_leave_chat(room_name, leave: bool=False) -> dict:
     action = 'join'
     if leave:
@@ -81,7 +83,7 @@ def get_data_from_server(connect: socket, encoding: str='ascii') -> dict:
 def pack_data(data: dict, encoding: str='ascii') -> bytes:
     return json.dumps(data).encode(encoding)
 
-def unpack_data(data: dict, encoding: str) -> dict:
+def unpack_data(data: bytes, encoding: str) -> dict:
     return json.loads(data.decode(encoding))
 
 

@@ -7,7 +7,6 @@ import click
 
 from server_common.settings import *
 
-
 def alerts_msg_text_from_code(response_code: int) -> str:
     for code, msg in ALERTS_MSGS.items():
         if int(code) == response_code:
@@ -34,7 +33,7 @@ def form_is_online() -> dict:
         }
 
 
-def unpack_data(data: dict, encoding: str) -> dict:
+def unpack_data(data: bytes, encoding: str) -> dict:
     return json.loads(data.decode(encoding))
 
 def pack_data(data: dict, encoding: str) -> bytes:
