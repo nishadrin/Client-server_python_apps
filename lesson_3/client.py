@@ -2,11 +2,11 @@ from socket import socket, AF_INET, SOCK_STREAM
 
 import click
 
-from common.settings import *
-from common.get_and_unpack_data import get_data
-from common.send_and_pack_data import send_data
-from common.code_messages.form_alert import form_alert
-from common.code_messages.form_data import presence_msg
+from .common.get_and_unpack_data import get_data
+from .common.send_and_pack_data import send_data
+from .common.forms.form_alert import form_alert
+from .common.forms.form_data import presence_msg
+from .common.settings import *
 
 
 def read_msg_from_server(connect: socket, data: dict) -> dict:
@@ -34,5 +34,10 @@ def command_line(addr: str, port: int):
 
     sock.close()
 
+
 if __name__ == '__main__':
+    if DEBUG:
+        addr = DEFAULT_SERVER_IP_ADDRESS
+        port = DEFAULT_SERVER_PORT
+        command_line(addr, port)
     command_line()

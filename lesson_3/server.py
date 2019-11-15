@@ -1,15 +1,12 @@
-from socket import socket, AF_INET, SOCK_STREAM
 import time
-from datetime import datetime
+from socket import AF_INET, SOCK_STREAM, socket
 
 import click
 
-from common.settings import *
-from common.get_and_unpack_data import get_data
-from common.send_and_pack_data import send_data
-from common.code_messages.form_alert import form_alert
-from common.code_messages.form_alert import form_alert
-from common.forms.server.forms import is_user_online
+from .common.forms.form_alert import form_alert
+from .common.get_and_unpack_data import get_data
+from .common.send_and_pack_data import send_data
+from .common.settings import *
 
 
 def read_msg_from_client(client: socket, data: dict):
@@ -44,5 +41,10 @@ def command_line(addr: str, port: int):
 
         client.close()
 
+
 if __name__ == '__main__':
+    if DEBUG:
+        addr = DEFAULT_SERVER_IP_ADDRESS
+        port = DEFAULT_SERVER_PORT
+        command_line(addr, port)
     command_line()
