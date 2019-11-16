@@ -4,8 +4,8 @@ from datetime import datetime
 from form_alert_or_error import form_alert_or_error, alerts_msg_text_from_code
 
 
-class TestOwnAlerts(unittest.TestCase):
-    def test_own_alert(self):
+class TestOwnAlertOrError(unittest.TestCase):
+    def test_alert(self):
         msg: dict = {
             "response": 205,
             "time": int(datetime.now().timestamp()),
@@ -13,13 +13,21 @@ class TestOwnAlerts(unittest.TestCase):
             }
         self.assertEqual(form_alert_or_error(205, 'reset content'), msg)
 
-    def test_own_error(self):
+    def test_error(self):
         msg: dict = {
-            "response": 409,
+            "response": 408,
             "time": int(datetime.now().timestamp()),
-            'error': 'conflict'
+            'error': 'request timeout'
             }
-        self.assertEqual(form_alert_or_error(409, 'conflict'), msg)
+        self.assertEqual(form_alert_or_error(408, 'request timeout'), msg)
+
+    def test_without_text_msg_code(self):
+        msg: dict = {
+            "response": 408,
+            "time": int(datetime.now().timestamp()),
+            'error': None
+            }
+        self.assertEqual(form_alert_or_error(408), msg)
 
 
 class TestTextFromCode(unittest.TestCase):
