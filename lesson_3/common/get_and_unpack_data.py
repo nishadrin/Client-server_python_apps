@@ -1,7 +1,7 @@
 import json
 from socket import socket
 
-from .settings import JIM_MAX_BYTES
+from settings import JIM_MAX_BYTES
 
 
 def unpack_data(data: bytes, encoding: str) -> dict:
@@ -9,7 +9,6 @@ def unpack_data(data: bytes, encoding: str) -> dict:
 
 
 def get_data(connection: socket, encoding: str='ascii') -> dict:
-    print(connection)
     recieve_bytes = connection.recv(JIM_MAX_BYTES)
     if not recieve_bytes:
         return

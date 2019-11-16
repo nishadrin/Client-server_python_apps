@@ -12,14 +12,16 @@ def msg(msg_to: str, msg_from: str, msg: str, encoding="ascii") -> dict:
         }
 
 
-def presence_msg(user_name: str, type: str='status') -> dict:
+def presence_msg(
+        user_name: str, type: str='status', status: str="Hello world!"
+        ) -> dict:
     return {
         "action": "presence",
         "time": int(datetime.now().timestamp()),
         "type": type,
         "user": {
             "account_name": user_name,
-            "status": "Hello world!"
+            "status": status
             }
         }
 

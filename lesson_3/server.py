@@ -3,7 +3,7 @@ from socket import AF_INET, SOCK_STREAM, socket
 
 import click
 
-from .common.forms.form_alert import form_alert
+from lesson_3.common.form_alert_or_error import form_alert_or_error
 from .common.get_and_unpack_data import get_data
 from .common.send_and_pack_data import send_data
 from .common.settings import *
@@ -12,10 +12,10 @@ from .common.settings import *
 def read_msg_from_client(client: socket, data: dict):
     client_request = get_data(client)
     if data is None or client_request.get('action') not in ACTIONS_TUPLE:
-        send_data(client, form_alert(400))
+        send_data(client, form_alert_or_error(400))
         return None
     if client_request.get('action') == 'presence':
-        send_data(client, form_alert(200))
+        send_data(client, form_alert_or_error(200))
         return None
     return client_request
 
