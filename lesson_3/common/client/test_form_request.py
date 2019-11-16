@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime
 
-from form_request import client_message, presence_msg
+from form_request import client_message, presence_msg, auth, join_or_leave_chat
 
 
 class TestClientFormRequest(unittest.TestCase):
@@ -33,6 +33,33 @@ class TestClientFormRequest(unittest.TestCase):
         }
         self.assertEqual(presence_msg('user_name', 'type', 'status'), msg)
 
+    def test_auth(self):
+        msg: dict = {
+        "action": "authenticate",
+        "time": int(datetime.now().timestamp()),
+        "type": 'type',
+        "user": {
+            "account_name": 'user_name',
+            "password": 'password'
+            }
+        }
+        self.assertEqual(auth('user_name', 'password', 'type'), msg)
+
+    def test_join_chat(self):
+        msg: dict = {
+        "action": 'join',
+        "time": int(datetime.now().timestamp()),
+        "room": 'room_name'
+        }
+        self.assertEqual(join_or_leave_chat('room_name'), msg)
+
+    def test_leave_chat(self):
+        msg: dict = {
+            "action": 'leave',
+            "time": int(datetime.now().timestamp()),
+            "room": 'room_name'
+            }
+        self.assertEqual(join_or_leave_chat('room_name', True), msg)
 
 if __name__ == '__main__':
     unittest.main()
