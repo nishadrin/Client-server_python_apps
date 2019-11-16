@@ -9,15 +9,17 @@ from common.configure import *
 
 def read_msg_from_client(client: socket):
     print('connect: ', client)
-    client_request = get_data(client)
-    print('data: ', client_request)
-    if client_request is None or client_request.get('action') not in ACTIONS_TUPLE:
+    data = get_data(client)
+    print('data: ', data)
+    if data.get('response'):
+        return
+    if data is None or data.get('action') not in ACTIONS_TUPLE:
         send_data(client, form_alert_or_error(400))
         return
-    if client_request.get('action') == 'presence':
+    if data.get('action') == 'presence':
         send_data(client, form_alert_or_error(200))
         return
-    return client_request
+    return data
 
 
 def command_line(addr: str, port: int):

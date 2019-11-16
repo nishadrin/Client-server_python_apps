@@ -1,7 +1,7 @@
 import json
 import socket
 
-from configure import JIM_MAX_BYTES
+from .configure import JIM_MAX_BYTES
 
 
 def unpack_data(data: bytes, encoding: str) -> dict:
