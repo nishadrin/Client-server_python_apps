@@ -21,6 +21,18 @@ class TestClientFormRequest(unittest.TestCase):
                 test_msg
                 )
 
+    def test_presence_msg(self):
+        msg: dict = {
+        "action": "presence",
+        "time": int(datetime.now().timestamp()),
+        "type": 'type',
+        "user": {
+            "account_name": 'user_name',
+            "status": 'status'
+            }
+        }
+        self.assertEqual(presence_msg('user_name', 'type', 'status'), msg)
+
 
 if __name__ == '__main__':
     unittest.main()
