@@ -3,10 +3,10 @@ from socket import AF_INET, SOCK_STREAM, socket
 
 import click
 
-from common.forms.form_alert import form_alert
-from common.get_and_unpack_data import get_data
-from common.send_and_pack_data import send_data
-from common.settings import *
+from .common.forms.form_alert import form_alert
+from .common.get_and_unpack_data import get_data
+from .common.send_and_pack_data import send_data
+from .common.settings import *
 
 
 def read_msg_from_client(client: socket, data: dict):
@@ -21,16 +21,16 @@ def read_msg_from_client(client: socket, data: dict):
 
 
 @click.command()
+@click.option('--ip', default=DEFAULT_SERVER_IP_ADDRESS, help='ip address')
 @click.option('--port', default=DEFAULT_SERVER_PORT, help='port number')
-@click.option('--addr', default=DEFAULT_SERVER_IP_ADDRESS, help='ip address')
-def command_line(addr: str, port: int):
+def command_line(ip: str, port: int):
     sock = socket(AF_INET, SOCK_STREAM)
-    sock.bind((addr, port))
+    sock.bind((ip, port))
     sock.listen(SOCKET_LISTENING)
 
     while True:
         try:
-            client, addr = sock.accept()
+            client, ip = sock.accept()
         except KeyboardInterrupt:
             sock.close()
             time.sleep(60)

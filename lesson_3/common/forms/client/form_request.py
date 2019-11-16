@@ -11,6 +11,7 @@ def msg(msg_to: str, msg_from: str, msg: str, encoding="ascii") -> dict:
         "message": msg
         }
 
+
 def presence_msg(user_name: str, type: str='status') -> dict:
     return {
         "action": "presence",
@@ -21,6 +22,7 @@ def presence_msg(user_name: str, type: str='status') -> dict:
             "status": "Hello world!"
             }
         }
+
 
 def auth(user_name: str, password: str, type: str='Status') -> dict:
     return {
