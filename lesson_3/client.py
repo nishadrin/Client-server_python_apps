@@ -32,6 +32,5 @@ def command_line(addr: str, port: int):
     sock.close()
 
 
-
 if __name__ == '__main__':
     command_line('localhost', 7777)
