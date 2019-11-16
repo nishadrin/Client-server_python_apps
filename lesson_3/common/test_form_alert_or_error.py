@@ -21,7 +21,15 @@ class TestOwnAlertOrError(unittest.TestCase):
             }
         self.assertEqual(form_alert_or_error(408, 'request timeout'), msg)
 
-    def test_without_text_msg_code(self):
+    def test_alert_without_text_msg_code(self):
+        msg: dict = {
+            "response": 205,
+            "time": int(datetime.now().timestamp()),
+            'alert': None
+            }
+        self.assertEqual(form_alert_or_error(205), msg)
+
+    def test_error_without_text_msg_code(self):
         msg: dict = {
             "response": 408,
             "time": int(datetime.now().timestamp()),
