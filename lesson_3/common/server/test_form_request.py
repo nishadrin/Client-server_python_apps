@@ -4,8 +4,8 @@ from datetime import datetime
 from form_request import is_user_online
 
 
-class TestOwnAlertOrError(unittest.TestCase):
-     def test_alert(self):
+class TestServerFormRequest(unittest.TestCase):
+     def test_is_user_online(self):
         msg: dict = {
              "action": "probe",
              "time": int(datetime.now().timestamp()),

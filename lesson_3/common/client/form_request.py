@@ -1,14 +1,16 @@
 from datetime import datetime
 
 
-def msg(msg_to: str, msg_from: str, msg: str, encoding="ascii") -> dict:
+def client_message(
+        msg_to: str, msg_from: str, msg: str, encoding: str ="ascii"
+        ) -> dict:
     return {
         "action": "msg",
         "time": int(datetime.now().timestamp()),
         "to": msg_to,
         "from": msg_from,
-        "encoding": encoding,
-        "message": msg
+        "message": msg,
+        "encoding": encoding
         }
 
 
