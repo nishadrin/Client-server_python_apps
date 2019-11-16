@@ -11,15 +11,13 @@ def alerts_msg_text_from_code(response_code: int) -> str:
 
 
 def form_alert(response_code: int, msg_code: str=None) -> dict:
+    alert = 'alert'
+    if response_code > 399:
+        alert = 'error'
     if msg_code is None:
         msg_code = alerts_msg_text_from_code(response_code)
-    else:
-        msg_code = 'alert'
-        if response_code > 399:
-            msg_code = 'error'
-
     return {
         "response": response_code,
         "time": int(datetime.now().timestamp()),
-        'alert': msg_code
+        alert: msg_code
         }
