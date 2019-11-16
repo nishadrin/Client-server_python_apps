@@ -38,4 +38,4 @@ def command_line(addr: str, port: int):
 
 
 if __name__ == '__main__':
-    command_line('localhost', 7777)
+    command_line(DEFAULT_IP_ADDRESS, DEFAULT_SERVER_PORT)
