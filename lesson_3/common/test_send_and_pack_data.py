@@ -16,7 +16,10 @@ class TestPackData(unittest.TestCase):
             "message": 'msg'
             }
         encoding: str = 'ascii'
-        self.assertEqual(pack_data(data, encoding), json.dumps(data).encode(encoding))
+        self.assertEqual(
+            pack_data(data, encoding),
+            json.dumps(data).encode(encoding)
+            )
 
     def test_encoding(self):
         data: dict = {
@@ -29,7 +32,10 @@ class TestPackData(unittest.TestCase):
             }
         encodings: tuple = ('ascii', 'utf-8')
         for encoding in encodings:
-            self.assertEqual(pack_data(data, encoding), json.dumps(data).encode(encoding))
+            self.assertEqual(
+                pack_data(data, encoding),
+                json.dumps(data).encode(encoding)
+                )
 
 
 if __name__ == '__main__':
