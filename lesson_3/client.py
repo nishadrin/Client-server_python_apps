@@ -1,12 +1,12 @@
-from socket import socket, AF_INET, SOCK_STREAM
+from socket import socket, SOCK_STREAM, AF_INET
 
 import click
 
-from .common.get_and_unpack_data import get_data
-from .common.send_and_pack_data import send_data
-from lesson_3.common.form_alert_or_error import form_alert_or_error
-from lesson_3.common.client.form_request import presence_msg
-from .common.settings import *
+from common.get_and_unpack_data import get_data
+from common.send_and_pack_data import send_data
+from common.form_alert_or_error import form_alert_or_error
+from common.client.form_request import presence_msg
+from common.configure import *
 
 
 def read_msg_from_server(connect: socket, data: dict) -> dict:
@@ -20,15 +20,15 @@ def read_msg_from_server(connect: socket, data: dict) -> dict:
 
 
 @click.command()
-@click.argument('ip')
-@click.option('--port', type=int, help='port number')
-def command_line(ip: str, port: int):
+@click.argument('addr', default=DEFAULT_SERVER_IP_ADDRESS)
+@click.option('--port', default=DEFAULT_SERVER_IP_ADDRESS, type=int, help='port number')
+def command_line(addr: str, port: int):
     sock = socket(AF_INET, SOCK_STREAM)
-    sock.connect((ip, port))
+    sock.connect((addr, port))
 
     send_data(sock, presence_msg('Nick'))
     msg_from_server = read_msg_from_server(sock, get_data(sock))
-
+    print(msg_from_server)
     if msg_from_server is not None:
         print('Сообщение с сервера:', msg_from_server)
 
@@ -36,8 +36,4 @@ def command_line(ip: str, port: int):
 
 
 if __name__ == '__main__':
-    if DEBUG:
-        ip = DEFAULT_SERVER_IP_ADDRESS
-        port = DEFAULT_SERVER_PORT
-        command_line(ip, port)
     command_line()

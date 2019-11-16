@@ -1,6 +1,5 @@
 import unittest
 import json
-from datetime import datetime
 
 from get_and_unpack_data import unpack_data
 

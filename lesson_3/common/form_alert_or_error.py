@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from settings import ALERTS_MSGS
+from .configure import ALERTS_MSGS
 
 
 def alerts_msg_text_from_code(response_code: int) -> str:
