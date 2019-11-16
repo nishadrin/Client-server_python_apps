@@ -8,10 +8,8 @@ def unpack_data(data: bytes, encoding: str) -> dict:
     return json.loads(data.decode(encoding))
 
 
-def get_data(connect: socket, encoding: str='ascii') -> dict:
-    print(connect)
-    recieve_bytes = connect.recv(JIM_MAX_BYTES)
-    print(recieve_bytes)
+def get_data(sock: socket, encoding: str='ascii') -> dict:
+    recieve_bytes = sock.recv(JIM_MAX_BYTES)
     if not recieve_bytes:
         return
     return unpack_data(recieve_bytes, encoding)
