@@ -5,7 +5,7 @@ from common.configure import JIM_MAX_BYTES
 
 msg_to = '1234567890123456789012345'
 msg_from = '1234567890123456789012346'
-msg = 'a' * 499
+msg = 'а' * 83
 
 jim_msg_lenght = len(pack_data(client_message(msg_to, msg_from, msg, encoding='utf-8'),
         encoding='ascii'))
@@ -22,4 +22,4 @@ else:
 # проведя небольшие исследования, пришел к выводу, что в
 # form_request.client_message необходимо изменить название сообщений на
 # msg, вместо message, тогда можем себе позволить 499 символов на
-# само сообщение.
+# само сообщение поддерживающее кодировку ascii и 83 при utf-8
