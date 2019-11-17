@@ -3,9 +3,9 @@ from common.send_and_pack_data import pack_data
 from common.configure import JIM_MAX_BYTES
 
 
-msg_to = '1234567890123456789012345'
-msg_from = '1234567890123456789012346'
-msg = 'б' * 83
+msg_to = '1234567890123456789012345' # 25 символов
+msg_from = '1234567890123456789012346' # 25 символов
+msg = 'б' * 83 # 500- символов
 
 jim_msg_lenght = len(pack_data(client_message(msg_to, msg_from, msg, encoding='utf-8'),
         encoding='ascii'))
