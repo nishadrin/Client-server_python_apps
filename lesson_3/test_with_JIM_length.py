@@ -5,19 +5,19 @@ from common.configure import JIM_MAX_BYTES
 
 msg_to = '1234567890123456789012345'
 msg_from = '1234567890123456789012346'
-msg = 'а' * 83
+msg = 'б' * 83
 
 jim_msg_lenght = len(pack_data(client_message(msg_to, msg_from, msg, encoding='utf-8'),
         encoding='ascii'))
 
-print(jim_msg_lenght)
+print('Длина передаваемого сообщения:', jim_msg_lenght)
 
 if jim_msg_lenght > JIM_MAX_BYTES:
-    print('Больше')
+    print('Сообщение не пройдет')
 elif jim_msg_lenght == JIM_MAX_BYTES:
-    print('Равно')
+    print('Сообщение пройдет')
 else:
-    print('Меньше')
+    print('Сообщение пройдет')
 
 # проведя небольшие исследования, пришел к выводу, что в
 # form_request.client_message необходимо изменить название сообщений на
