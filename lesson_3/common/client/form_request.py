@@ -6,7 +6,8 @@ def client_message(
         ) -> dict:
     return {
         "action": "msg",
-        "time": int(datetime.now().timestamp()), "to": msg_to,
+        "time": int(datetime.now().timestamp()),
+        "to": msg_to,
         "from": msg_from,
         "msg": msg,
         "encoding": encoding
