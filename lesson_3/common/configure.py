@@ -3,6 +3,8 @@ DEFAULT_IP_ADDRESS = 'localhost'
 DEFAULT_SERVER_PORT = 7777
 SOCKET_LISTENING = 5
 JIM_MAX_BYTES = 640
+PROJECT_MAIN_PATH = '/home/nick/Документы/Проверка ДЗ/Клиент-серверные ' \
+    'приложения на Python/lesson_3/'
 ACTIONS_TUPLE = (
     'presence', # присутствие. Сервисное сообщение для извещения сервера
     # j присутствии клиента online

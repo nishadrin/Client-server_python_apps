@@ -1,27 +1,31 @@
 import time
 from socket import socket, SOCK_STREAM, AF_INET
 
+import click
+
 from common.form_alert_or_error import form_alert_or_error
 from common.get_and_unpack_data import get_data
 from common.send_and_pack_data import send_data
 from common.configure import *
 
 
-def read_msg_from_client(client: socket):
-    print('connect: ', client)
-    data = get_data(client)
+def read_msg_from_client(data: dict, sock: socket) -> dict:
+    print('connect: ', sock)
     print('data: ', data)
     if data.get('response'):
-        return
+        return data
     if data is None or data.get('action') not in ACTIONS_TUPLE:
-        send_data(client, form_alert_or_error(400))
-        return
+        send_data(sock, form_alert_or_error(400))
+        return data
     if data.get('action') == 'presence':
-        send_data(client, form_alert_or_error(200))
-        return
-    return data
+        send_data(sock, form_alert_or_error(200))
+        return data
+    return
 
 
+@click.command()
+@click.option('--addr', default=DEFAULT_IP_ADDRESS, help='ip address')
+@click.option('--port', default=DEFAULT_SERVER_PORT, help='port number')
 def command_line(addr: str, port: int):
     sock = socket(AF_INET, SOCK_STREAM)
     sock.bind((addr, port))
@@ -31,13 +35,15 @@ def command_line(addr: str, port: int):
             client, addr = sock.accept()
         except KeyboardInterrupt:
             sock.close()
+            print('Ожидайте закрытия минуту.')
             time.sleep(60)
             print('Порт свободен, можно пользоваться.')
             raise
 
-        read_msg_from_client(client)
+        read_msg_from_client(get_data(client), sock=client)
+
         client.close()
 
 
 if __name__ == '__main__':
-    command_line(DEFAULT_IP_ADDRESS, DEFAULT_SERVER_PORT)
+    command_line()
