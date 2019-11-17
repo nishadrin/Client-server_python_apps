@@ -9,6 +9,8 @@ from common.client.form_request import presence_msg
 from common.configure import *
 
 
+# по сути это обработчик событий, не могу понять как правильно его
+# построить и написать под него тесты
 def read_msg_from_server(data: dict, sock: socket) -> dict:
     print('connect: ', sock)
     print('data: ', data)
@@ -31,7 +33,7 @@ def command_line(addr: str, port: int):
     sock.connect((addr, port))
 
     send_data(sock, presence_msg('Nick'))
-    read_msg_from_server(get_data(sock), sock=sock)
+    read_msg_from_server(get_data(sock), sock)
 
     sock.close()
 
