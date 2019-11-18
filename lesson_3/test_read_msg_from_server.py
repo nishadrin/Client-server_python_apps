@@ -1,11 +1,11 @@
 import unittest
 import subprocess
 
-from client import read_msg_from_server
+from client import event_handler as EH_client
 from common.configure import PROJECT_MAIN_PATH
 
 
-class TestReadMsgFromServer(unittest.TestCase):
+class TestEventHandler(unittest.TestCase):
     pass
 
 
@@ -17,7 +17,7 @@ class TestConnections(unittest.TestCase):
             start_new_session=True
             )
 
-    def test_read_msg_from_server(self):
+    def event_handler_client(self):
         addr, port = DEFAULT_IP_ADDRESS, DEFAULT_SERVER_PORT
         connect_server = self.connection(
             'python3 ' + PROJECT_MAIN_PATH + 'server.py', addr, port
@@ -26,7 +26,7 @@ class TestConnections(unittest.TestCase):
             'python3 ' + PROJECT_MAIN_PATH + 'client.py', addr, port
             )
 
-        read_msg_from_server(connect_client)
+        EH_client(connect_client)
         self.assertIsNotNone()
 
 

@@ -11,7 +11,8 @@ get_data = DE.get_data
 send_data = DE.send_data
 
 
-def read_msg_from_server(data: dict, sock: socket) -> dict:
+def event_handler(data: dict, sock: socket) -> dict:
+    """ Handles requests from server """
     print('connect: ', sock)
     print('data: ', data)
     if data.get('response'):
@@ -27,13 +28,22 @@ def read_msg_from_server(data: dict, sock: socket) -> dict:
 
 @click.command()
 @click.argument('addr')
-@click.option('--port', type=int, help='port number')
+@click.option('--port', type=int, help="server's port")
 def command_line(addr: str, port: int):
+    """ Connect with server to send request and get response with
+    handler processing.  \n
+    Start in terminal:\n
+    addr - server's address;\n
+    --port - server's port.  \n
+
+    example: python3.6 client.py localhost --port 7777.
+    
+    """
     sock = socket(AF_INET, SOCK_STREAM)
     sock.connect((addr, port))
 
     send_data(sock, presence_msg('Nick'))
-    read_msg_from_server(get_data(sock), sock)
+    event_handler(get_data(sock), sock)
 
     sock.close()
 

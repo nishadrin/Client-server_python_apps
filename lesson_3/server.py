@@ -15,7 +15,8 @@ send_data = DE.send_data
 # вижу 2 варианта, либо через is DEBUG внутри функции ниже (+if), либо
 # сокеты сразу передавать в виде аргумента, но так вроде не правильно
 # тестировать
-def read_msg_from_client(data: dict, sock: socket) -> dict:
+def event_handler(data: dict, sock: socket) -> dict:
+    """ Handles requests from client """
     print('connect: ', sock)
     print('data: ', data)
     if data.get('response'):
@@ -33,6 +34,16 @@ def read_msg_from_client(data: dict, sock: socket) -> dict:
 @click.option('--addr', default=DEFAULT_IP_ADDRESS, help='ip address')
 @click.option('--port', default=DEFAULT_SERVER_PORT, help='port number')
 def command_line(addr: str, port: int):
+    """ Listening port for some client to handles them.  \n
+    Start in terminal:\n
+    --addr: client's address (not required);\n
+    --port: client's port (not required).  \n
+
+    examples: \n
+    python3.6 server.py;\n
+    python3.6 server.py localhost --port 7777.
+
+    """
     sock = socket(AF_INET, SOCK_STREAM)
     sock.bind((addr, port))
     sock.listen(SOCKET_LISTENING)
@@ -46,7 +57,7 @@ def command_line(addr: str, port: int):
             print('Порт свободен, можно пользоваться.')
             raise
 
-        read_msg_from_client(get_data(client), client)
+        event_handler(get_data(client), client)
 
         client.close()
 
