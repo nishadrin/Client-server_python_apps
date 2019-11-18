@@ -1,14 +1,18 @@
 import time
 from socket import socket, SOCK_STREAM, AF_INET
+import logging
 
 import click
 
 from common.utils import DataExchange as DE, FormAlertOrError as FAOE
 from common.config import *
+import log.server_log_config
 
 form_alert_or_error = FAOE().form_alert_or_error
 get_data = DE.get_data
 send_data = DE.send_data
+logger = logging.getLogger('server')
+
 
 # по сути это обработчик событий, не могу понять как правильно его
 # построить и написать под него тесты
@@ -17,8 +21,7 @@ send_data = DE.send_data
 # тестировать
 def event_handler(data: dict, sock: socket) -> dict:
     """ Handles requests from client """
-    print('connect: ', sock)
-    print('data: ', data)
+    logger.info(f'input data: {data}')
     if data.get('response'):
         return data
     if data is None or data.get('action') not in ACTIONS_TUPLE:
@@ -27,6 +30,7 @@ def event_handler(data: dict, sock: socket) -> dict:
     if data.get('action') == 'presence':
         send_data(sock, form_alert_or_error(200))
         return data
+    logger.info('Event is end!')
     return
 
 
@@ -52,9 +56,9 @@ def command_line(addr: str, port: int):
             client, addr = sock.accept()
         except KeyboardInterrupt:
             sock.close()
+            logger.info('Exception KeyboardInterrupt!')
             print('Ожидайте закрытия минуту.')
             time.sleep(60)
-            print('Порт свободен, можно пользоваться.')
             raise
 
         event_handler(get_data(client), client)
