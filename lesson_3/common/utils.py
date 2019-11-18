@@ -49,7 +49,7 @@ class FormAlertOrError:
     def form_alert_or_error(self, response_code: int,
                             text_msg_code: str = None) -> dict:
         """ Forming dict with alert/error """
-        alert: str = 'alert'
+        alert = 'alert'
         if response_code > 399:
             alert = 'error'
         if text_msg_code is None:
