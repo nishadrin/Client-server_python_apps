@@ -9,7 +9,7 @@ def client_message(
         "time": int(datetime.now().timestamp()),
         "to": msg_to,
         "from": msg_from,
-        "message": msg,
+        "msg": msg,
         "encoding": encoding
         }
 

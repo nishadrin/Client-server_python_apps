@@ -6,7 +6,7 @@ from form_request import is_user_online
 
 class TestServerFormRequest(unittest.TestCase):
      def test_is_user_online(self):
-        msg: dict = {
+        msg = {
              "action": "probe",
              "time": int(datetime.now().timestamp()),
              }

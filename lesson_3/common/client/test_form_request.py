@@ -22,7 +22,7 @@ class TestClientFormRequest(unittest.TestCase):
                 )
 
     def test_presence_msg(self):
-        msg: dict = {
+        msg = {
         "action": "presence",
         "time": int(datetime.now().timestamp()),
         "type": 'type',
@@ -34,7 +34,7 @@ class TestClientFormRequest(unittest.TestCase):
         self.assertEqual(presence_msg('user_name', 'type', 'status'), msg)
 
     def test_auth(self):
-        msg: dict = {
+        msg = {
         "action": "authenticate",
         "time": int(datetime.now().timestamp()),
         "type": 'type',
@@ -46,7 +46,7 @@ class TestClientFormRequest(unittest.TestCase):
         self.assertEqual(auth('user_name', 'password', 'type'), msg)
 
     def test_join_chat(self):
-        msg: dict = {
+        msg = {
         "action": 'join',
         "time": int(datetime.now().timestamp()),
         "room": 'room_name'
@@ -54,7 +54,7 @@ class TestClientFormRequest(unittest.TestCase):
         self.assertEqual(join_or_leave_chat('room_name'), msg)
 
     def test_leave_chat(self):
-        msg: dict = {
+        msg = {
             "action": 'leave',
             "time": int(datetime.now().timestamp()),
             "room": 'room_name'
