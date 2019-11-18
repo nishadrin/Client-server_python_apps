@@ -6,8 +6,9 @@ from common.utils import DataExchange as DE, FormAlertOrError as FAOE
 from common.client.form_request import presence_msg
 from common.config import *
 
-FAOE = FAOE()
-DE = DE()
+form_alert_or_error = FAOE().form_alert_or_error
+get_data = DE.get_data
+send_data = DE.send_data
 
 
 def read_msg_from_server(data: dict, sock: socket) -> dict:
@@ -16,10 +17,10 @@ def read_msg_from_server(data: dict, sock: socket) -> dict:
     if data.get('response'):
         return data
     if data is None or data.get('action') not in ACTIONS_TUPLE:
-        DE.send_data(sock, FAOE.form_alert_or_error(400))
+        send_data(sock, form_alert_or_error(400))
         return data
     if data.get('action') == 'probe':
-        DE.send_data(sock, presence_msg('Nick'))
+        send_data(sock, presence_msg('Nick'))
         return data
     return
 
@@ -31,8 +32,8 @@ def command_line(addr: str, port: int):
     sock = socket(AF_INET, SOCK_STREAM)
     sock.connect((addr, port))
 
-    DE.send_data(sock, presence_msg('Nick'))
-    read_msg_from_server(DE.get_data(sock), sock)
+    send_data(sock, presence_msg('Nick'))
+    read_msg_from_server(get_data(sock), sock)
 
     sock.close()
 

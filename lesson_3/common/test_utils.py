@@ -5,10 +5,8 @@ from datetime import datetime
 from utils import DataPacking as DP
 from utils import FormAlertOrError as FAOE
 
-FAOE = FAOE()
-
-alerts_msg_text_from_code = FAOE.alerts_msg_text_from_code
-form_alert_or_error = FAOE.form_alert_or_error
+alerts_msg_text_from_code = FAOE().alerts_msg_text_from_code
+form_alert_or_error = FAOE().form_alert_or_error
 pack_data = DP.pack_data
 unpack_data = DP.unpack_data
 

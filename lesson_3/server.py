@@ -6,9 +6,9 @@ import click
 from common.utils import DataExchange as DE, FormAlertOrError as FAOE
 from common.config import *
 
-FAOE = FAOE()
-DE = DE()
-
+form_alert_or_error = FAOE().form_alert_or_error
+get_data = DE.get_data
+send_data = DE.send_data
 
 # по сути это обработчик событий, не могу понять как правильно его
 # построить и написать под него тесты
@@ -21,10 +21,10 @@ def read_msg_from_client(data: dict, sock: socket) -> dict:
     if data.get('response'):
         return data
     if data is None or data.get('action') not in ACTIONS_TUPLE:
-        DE.send_data(sock, FAOE.form_alert_or_error(400))
+        send_data(sock, form_alert_or_error(400))
         return data
     if data.get('action') == 'presence':
-        DE.send_data(sock, FAOE.form_alert_or_error(200))
+        send_data(sock, form_alert_or_error(200))
         return data
     return
 
@@ -46,7 +46,7 @@ def command_line(addr: str, port: int):
             print('Порт свободен, можно пользоваться.')
             raise
 
-        read_msg_from_client(DE.get_data(client), client)
+        read_msg_from_client(get_data(client), client)
 
         client.close()
 
