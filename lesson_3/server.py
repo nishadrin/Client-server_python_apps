@@ -3,10 +3,11 @@ from socket import socket, SOCK_STREAM, AF_INET
 
 import click
 
-from common.form_alert_or_error import form_alert_or_error
-from common.get_and_unpack_data import get_data
-from common.send_and_pack_data import send_data
-from common.configure import *
+from common.utils import DataExchange as DE, FormAlertOrError as FAOE
+from common.config import *
+
+FAOE = FAOE()
+DE = DE()
 
 
 # по сути это обработчик событий, не могу понять как правильно его
@@ -20,10 +21,10 @@ def read_msg_from_client(data: dict, sock: socket) -> dict:
     if data.get('response'):
         return data
     if data is None or data.get('action') not in ACTIONS_TUPLE:
-        send_data(sock, form_alert_or_error(400))
+        DE.send_data(sock, FAOE.form_alert_or_error(400))
         return data
     if data.get('action') == 'presence':
-        send_data(sock, form_alert_or_error(200))
+        DE.send_data(sock, FAOE.form_alert_or_error(200))
         return data
     return
 
@@ -45,7 +46,7 @@ def command_line(addr: str, port: int):
             print('Порт свободен, можно пользоваться.')
             raise
 
-        read_msg_from_client(get_data(client), client)
+        read_msg_from_client(DE.get_data(client), client)
 
         client.close()
 

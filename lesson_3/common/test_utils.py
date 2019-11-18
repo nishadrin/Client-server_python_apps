@@ -1,7 +1,70 @@
 import unittest
+import json
 from datetime import datetime
 
-from form_alert_or_error import form_alert_or_error, alerts_msg_text_from_code
+from utils import DataPacking as DP
+from utils import FormAlertOrError as FAOE
+
+FAOE = FAOE()
+
+alerts_msg_text_from_code = FAOE.alerts_msg_text_from_code
+form_alert_or_error = FAOE.form_alert_or_error
+pack_data = DP.pack_data
+unpack_data = DP.unpack_data
+
+
+class TestPackData(unittest.TestCase):
+    def test_data(self):
+        data: dict = {
+            "action": "msg",
+            "time": int(datetime.now().timestamp()),
+            "to": 'test',
+            "from": 'msg_from',
+            "encoding": 'encoding',
+            "message": 'msg'
+            }
+        encoding: str = 'ascii'
+        self.assertEqual(
+            pack_data(data, encoding),
+            json.dumps(data).encode(encoding)
+            )
+
+    def test_encoding(self):
+        data: dict = {
+            "action": "msg",
+            "time": int(datetime.now().timestamp()),
+            "to": 'test',
+            "from": 'msg_from',
+            "encoding": 'encoding',
+            "message": 'msg'
+            }
+        encodings: tuple = ('ascii', 'utf-8')
+        for encoding in encodings:
+            self.assertEqual(
+                pack_data(data, encoding),
+                json.dumps(data).encode(encoding)
+                )
+
+
+class TestUnpackData(unittest.TestCase):
+    def test_data(self):
+        data: bytes = b'{"action": "msg", "time": 1573913065, "to": "test", ' \
+            b'"from": "msg_from", "encoding": "encoding", "message": "msg"}'
+        encoding: str = 'ascii'
+        self.assertEqual(
+            unpack_data(data, encoding),
+            json.loads(data.decode(encoding))
+            )
+
+    def test_encoding(self):
+        data: bytes = b'{"action": "msg", "time": 1573913065, "to": "test", ' \
+            b'"from": "msg_from", "encoding": "encoding", "message": "msg"}'
+        encodings: tuple = ('ascii', 'utf-8')
+        for encoding in encodings:
+            self.assertEqual(
+                unpack_data(data, encoding),
+                json.loads(data.decode(encoding))
+                )
 
 
 class TestOwnAlertOrError(unittest.TestCase):
@@ -40,7 +103,8 @@ class TestOwnAlertOrError(unittest.TestCase):
 
 class TestTextFromCode(unittest.TestCase):
     def test_100(self):
-        self.assertEqual(alerts_msg_text_from_code(100), 'base notification')
+        self.assertEqual(alerts_msg_text_from_code(100),
+                         'base notification')
 
     def test_101(self):
         self.assertEqual(alerts_msg_text_from_code(101),
