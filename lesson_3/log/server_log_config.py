@@ -17,3 +17,17 @@ time_file_handler.setFormatter(format)
 
 logger.addHandler(time_file_handler)
 logger.setLevel(logging.DEBUG)
+
+
+class Log():
+
+    def __call__(self, func):
+
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            logger.info(f'{inspect.stack()[1][3]} | '
+                        f'input args: {args} and kwargs: {kwargs}')
+
+            return func(*args, *kwargs)
+
+        return wrapper
