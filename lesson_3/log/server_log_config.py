@@ -1,4 +1,6 @@
+from functools import wraps
 import logging
+import inspect
 from logging import handlers
 
 
@@ -25,8 +27,9 @@ class Log():
 
         @wraps(func)
         def wrapper(*args, **kwargs):
-            logger.info(f'{inspect.stack()[1][3]} | '
-                        f'input args: {args} and kwargs: {kwargs}')
+            logger.info(f'funcion before: {inspect.stack()[1][3]} | name:'
+                        f' {func.__name__} | input args and kwargs: '
+                        f'{args}, {kwargs}')
 
             return func(*args, *kwargs)
 

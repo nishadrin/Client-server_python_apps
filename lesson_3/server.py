@@ -6,7 +6,7 @@ import click
 
 from common.utils import DataExchange as DE, FormAlertOrError as FAOE
 from common.config import *
-from log.client_log_config import Log
+from log.server_log_config import Log
 
 
 form_alert_or_error = FAOE().form_alert_or_error
