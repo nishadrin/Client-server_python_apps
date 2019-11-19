@@ -1,5 +1,5 @@
 from common.client.form_request import client_message
-from common.send_and_pack_data import pack_data
+from common.гешды import pack_data
 from common.configure import JIM_MAX_BYTES
 
 
@@ -14,8 +14,10 @@ print('Длина передаваемого сообщения:', jim_msg_lengh
 
 if jim_msg_lenght > JIM_MAX_BYTES:
     print('Сообщение не пройдет')
+
 elif jim_msg_lenght == JIM_MAX_BYTES:
     print('Сообщение пройдет')
+
 else:
     print('Сообщение пройдет')
 

@@ -27,6 +27,7 @@ class TestConnections(unittest.TestCase):
             )
 
         EH_client(connect_client)
+
         self.assertIsNotNone()
 
 
