@@ -1,6 +1,9 @@
 from common.client.form_request import client_message
-from common.гешды import pack_data
-from common.configure import JIM_MAX_BYTES
+from common.utils import DataPacking as DP
+from common.config import JIM_MAX_BYTES
+
+
+pack_data = DP.pack_data
 
 
 msg_to = '1234567890123456789012345' # 25 символов
