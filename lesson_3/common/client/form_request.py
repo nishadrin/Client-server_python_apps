@@ -4,6 +4,7 @@ from datetime import datetime
 def client_message(
         msg_to: str, msg_from: str, msg: str, encoding: str ="ascii"
         ) -> dict:
+
     return {
         "action": "msg",
         "time": int(datetime.now().timestamp()),
@@ -17,6 +18,7 @@ def client_message(
 def presence_msg(
         user_name: str, type: str='status', status: str="Hello world!"
         ) -> dict:
+
     return {
         "action": "presence",
         "time": int(datetime.now().timestamp()),
@@ -29,6 +31,7 @@ def presence_msg(
 
 
 def auth(user_name: str, password: str, type: str='Status') -> dict:
+
     return {
         "action": "authenticate",
         "time": int(datetime.now().timestamp()),
@@ -44,6 +47,7 @@ def join_or_leave_chat(room_name, leave: bool=False) -> dict:
     action = 'join'
     if leave:
         action = 'leave'
+
     return {
         "action": action,
         "time": int(datetime.now().timestamp()),

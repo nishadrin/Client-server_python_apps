@@ -2,7 +2,7 @@ import unittest
 import subprocess
 
 from client import event_handler as EH_client
-from common.configure import PROJECT_MAIN_PATH
+from common.config import PROJECT_MAIN_PATH
 
 
 class TestEventHandler(unittest.TestCase):
@@ -27,6 +27,7 @@ class TestConnections(unittest.TestCase):
             )
 
         EH_client(connect_client)
+
         self.assertIsNotNone()
 
 

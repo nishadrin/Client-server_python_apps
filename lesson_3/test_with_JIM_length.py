@@ -1,6 +1,9 @@
 from common.client.form_request import client_message
-from common.send_and_pack_data import pack_data
-from common.configure import JIM_MAX_BYTES
+from common.utils import DataPacking as DP
+from common.config import JIM_MAX_BYTES
+
+
+pack_data = DP.pack_data
 
 
 msg_to = '1234567890123456789012345' # 25 символов
@@ -14,8 +17,10 @@ print('Длина передаваемого сообщения:', jim_msg_lengh
 
 if jim_msg_lenght > JIM_MAX_BYTES:
     print('Сообщение не пройдет')
+
 elif jim_msg_lenght == JIM_MAX_BYTES:
     print('Сообщение пройдет')
+
 else:
     print('Сообщение пройдет')
 
