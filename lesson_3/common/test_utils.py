@@ -12,7 +12,6 @@ unpack_data = DP.unpack_data
 
 
 class TestPackData(unittest.TestCase):
-
     def test_data(self):
         data = {
             "action": "msg",
@@ -23,7 +22,6 @@ class TestPackData(unittest.TestCase):
             "message": 'msg'
             }
         encoding = 'ascii'
-
         self.assertEqual(
             pack_data(data, encoding),
             json.dumps(data).encode(encoding)
@@ -38,9 +36,7 @@ class TestPackData(unittest.TestCase):
             "encoding": 'encoding',
             "message": 'msg'
             }
-
         encodings = ('ascii', 'utf-8')
-
         for encoding in encodings:
             self.assertEqual(
                 pack_data(data, encoding),
@@ -49,13 +45,10 @@ class TestPackData(unittest.TestCase):
 
 
 class TestUnpackData(unittest.TestCase):
-
     def test_data(self):
         data = b'{"action": "msg", "time": 1573913065, "to": "test", ' \
             b'"from": "msg_from", "encoding": "encoding", "message": "msg"}'
-
         encoding = 'ascii'
-
         self.assertEqual(
             unpack_data(data, encoding),
             json.loads(data.decode(encoding))
@@ -64,9 +57,7 @@ class TestUnpackData(unittest.TestCase):
     def test_encoding(self):
         data = b'{"action": "msg", "time": 1573913065, "to": "test", ' \
             b'"from": "msg_from", "encoding": "encoding", "message": "msg"}'
-
         encodings = ('ascii', 'utf-8')
-
         for encoding in encodings:
             self.assertEqual(
                 unpack_data(data, encoding),
@@ -75,14 +66,12 @@ class TestUnpackData(unittest.TestCase):
 
 
 class TestOwnAlertOrError(unittest.TestCase):
-
     def test_alert(self):
         msg = {
             "response": 205,
             "time": int(datetime.now().timestamp()),
             'alert': 'reset content'
             }
-
         self.assertEqual(form_alert_or_error(205, 'reset content'), msg)
 
     def test_error(self):
@@ -91,7 +80,6 @@ class TestOwnAlertOrError(unittest.TestCase):
             "time": int(datetime.now().timestamp()),
             'error': 'request timeout'
             }
-
         self.assertEqual(form_alert_or_error(408, 'request timeout'), msg)
 
     def test_alert_without_text_msg_code(self):
@@ -100,7 +88,6 @@ class TestOwnAlertOrError(unittest.TestCase):
             "time": int(datetime.now().timestamp()),
             'alert': None
             }
-
         self.assertEqual(form_alert_or_error(205), msg)
 
     def test_error_without_text_msg_code(self):
@@ -109,12 +96,10 @@ class TestOwnAlertOrError(unittest.TestCase):
             "time": int(datetime.now().timestamp()),
             'error': None
             }
-
         self.assertEqual(form_alert_or_error(408), msg)
 
 
 class TestTextFromCode(unittest.TestCase):
-
     def test_100(self):
         self.assertEqual(alerts_msg_text_from_code(100),
                          'base notification')
@@ -167,14 +152,12 @@ class TestTextFromCode(unittest.TestCase):
 
 
 class TestFormAlert(unittest.TestCase):
-
     def test_100(self):
         msg = {
             "response": 100,
             "time": int(datetime.now().timestamp()),
             'alert': 'base notification'
             }
-
         self.assertEqual(form_alert_or_error(100), msg)
 
     def test_101(self):
@@ -183,7 +166,6 @@ class TestFormAlert(unittest.TestCase):
             "time": int(datetime.now().timestamp()),
             'alert': 'important notification'
             }
-
         self.assertEqual(form_alert_or_error(101), msg)
 
     def test_200(self):
@@ -192,7 +174,6 @@ class TestFormAlert(unittest.TestCase):
             "time": int(datetime.now().timestamp()),
             'alert': 'OK'
             }
-
         self.assertEqual(form_alert_or_error(200), msg)
 
     def test_201(self):
@@ -201,7 +182,6 @@ class TestFormAlert(unittest.TestCase):
             "time": int(datetime.now().timestamp()),
             'alert': 'created'
             }
-
         self.assertEqual(form_alert_or_error(201), msg)
 
     def test_202(self):
@@ -210,7 +190,6 @@ class TestFormAlert(unittest.TestCase):
             "time": int(datetime.now().timestamp()),
             'alert': 'accepted'
             }
-
         self.assertEqual(form_alert_or_error(202), msg)
 
     def test_400(self):
@@ -219,7 +198,6 @@ class TestFormAlert(unittest.TestCase):
             "time": int(datetime.now().timestamp()),
             'error': 'wrong request/JSON object'
             }
-
         self.assertEqual(form_alert_or_error(400),  msg)
 
     def test_401(self):
@@ -228,7 +206,6 @@ class TestFormAlert(unittest.TestCase):
             "time": int(datetime.now().timestamp()),
             'error': 'not authorized'
             }
-
         self.assertEqual(form_alert_or_error(401), msg)
 
     def test_402(self):
@@ -237,7 +214,6 @@ class TestFormAlert(unittest.TestCase):
             "time": int(datetime.now().timestamp()),
             'error': 'wrong password or no account with that name'
             }
-
         self.assertEqual(form_alert_or_error(402), msg)
 
     def test_403(self):
@@ -246,7 +222,6 @@ class TestFormAlert(unittest.TestCase):
             "time": int(datetime.now().timestamp()),
             'error': 'forbidden'
             }
-
         self.assertEqual(form_alert_or_error(403), msg)
 
     def test_404(self):
@@ -255,7 +230,6 @@ class TestFormAlert(unittest.TestCase):
             "time": int(datetime.now().timestamp()),
             'error': 'not found chat or user'
             }
-
         self.assertEqual(form_alert_or_error(404), msg)
 
     def test_409(self):
@@ -264,7 +238,6 @@ class TestFormAlert(unittest.TestCase):
             "time": int(datetime.now().timestamp()),
             'error': 'conflict with another one connect'
             }
-
         self.assertEqual(form_alert_or_error(409), msg)
 
     def test_410(self):
@@ -273,7 +246,6 @@ class TestFormAlert(unittest.TestCase):
             "time": int(datetime.now().timestamp()),
             'error': 'gone offline'
             }
-
         self.assertEqual(form_alert_or_error(410), msg)
 
     def test_500(self):
@@ -282,7 +254,6 @@ class TestFormAlert(unittest.TestCase):
             "time": int(datetime.now().timestamp()),
             'error': 'server error'
             }
-
         self.assertEqual(form_alert_or_error(500), msg)
 
 

@@ -5,10 +5,8 @@ from form_request import client_message, presence_msg, auth, join_or_leave_chat
 
 
 class TestClientFormRequest(unittest.TestCase):
-
     def test_client_message_with_encodings(self):
         encodings = ('ascii', 'utf-8')
-
         for encoding in encodings:
             test_msg: dict = {
                 "action": "msg",
@@ -18,7 +16,6 @@ class TestClientFormRequest(unittest.TestCase):
                 "message": 'msg',
                 "encoding": encoding
                 }
-
             self.assertEqual(
                 client_message('msg_to', 'msg_from', 'msg', encoding=encoding),
                 test_msg
@@ -34,7 +31,6 @@ class TestClientFormRequest(unittest.TestCase):
             "status": 'status'
             }
         }
-
         self.assertEqual(presence_msg('user_name', 'type', 'status'), msg)
 
     def test_auth(self):
@@ -47,7 +43,6 @@ class TestClientFormRequest(unittest.TestCase):
             "password": 'password'
             }
         }
-
         self.assertEqual(auth('user_name', 'password', 'type'), msg)
 
     def test_join_chat(self):
@@ -56,7 +51,6 @@ class TestClientFormRequest(unittest.TestCase):
         "time": int(datetime.now().timestamp()),
         "room": 'room_name'
         }
-
         self.assertEqual(join_or_leave_chat('room_name'), msg)
 
     def test_leave_chat(self):
@@ -65,7 +59,6 @@ class TestClientFormRequest(unittest.TestCase):
             "time": int(datetime.now().timestamp()),
             "room": 'room_name'
             }
-
         self.assertEqual(join_or_leave_chat('room_name', True), msg)
 
 if __name__ == '__main__':
